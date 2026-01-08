@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../assets/logofixx.png"; // Path logo disesuaikan (naik satu folder)
+import logo from "../assets/logofixx.png"; 
 import "../styles/Onboarding.css";
 
 export default function Onboarding({ onSave, userId, username }) {
@@ -15,9 +15,11 @@ export default function Onboarding({ onSave, userId, username }) {
       grade: parseInt(grade),
       registeredAt: new Date().toISOString(),
       userId: userId,
-      username: username
+      username: username,
+      isOnboarded: true
     };
     
+    localStorage.setItem( `mentorku-user-${userId}`, JSON.stringify(userData));
     onSave(userData);
   };
 
@@ -59,9 +61,6 @@ export default function Onboarding({ onSave, userId, username }) {
                 </optgroup>
                 <optgroup label="Sekolah Menengah Atas (SMA)">
                   {[10, 11, 12].map(g => <option key={g} value={g}>Kelas {g} (SMA {g-9})</option>)}
-                </optgroup>
-                <optgroup label="Umum">
-                  <option value="13">Mahasiswa / Umum</option>
                 </optgroup>
               </select>
             </div>
