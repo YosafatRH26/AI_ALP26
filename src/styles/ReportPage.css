@@ -1,0 +1,57 @@
+/* src/pages/ReportPage.css */
+.report-page { padding: 40px 10%; height: 100%; overflow-y: auto; padding-bottom: 120px; display: flex; flex-direction: column; }
+.report-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.subject-select { padding: 10px 20px; border-radius: 12px; border: 1px solid #07acd6; background: white; color: #07acd6; font-weight: 600; outline: none; cursor: pointer; font-size: 14px; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
+.stat-card { background: white; padding: 25px; border-radius: 16px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; }
+.stat-card .label { display: block; font-size: 13px; color: #64748b; margin-bottom: 8px; font-weight: 500; }
+.stat-card .value { font-size: 28px; font-weight: 800; color: #0f172a; }
+
+.report-table { width: 100%; background: white; border-collapse: separate; border-spacing: 0; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-top: 10px; }
+.report-table th { background: #f8fafc; padding: 16px; text-align: left; font-size: 13px; color: #64748b; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; }
+.report-table td { padding: 16px; font-size: 14px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+.report-table tr:last-child td { border-bottom: none; }
+.score-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+.score-badge.good { background: #dcfce7; color: #166534; }
+.score-badge.bad { background: #fee2e2; color: #991b1b; }
+
+.analysis-section { margin-top: 40px; margin-bottom: 40px; }
+.analyze-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 14px; font-weight: 700; cursor: pointer; font-size: 15px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); transition: transform 0.2s; }
+.analyze-btn:hover { transform: translateY(-2px); }
+.analyze-btn:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; }
+
+.ai-report-card { background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 30px; margin-top: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.ai-report-card h3 { text-align: center; color: #4338ca; margin-bottom: 25px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 15px; font-size: 18px; }
+.analysis-grid { display: grid; gap: 25px; grid-template-columns: 1fr 1fr; }
+.analysis-item { background: #f8fafc; padding: 15px; border-radius: 12px; }
+.analysis-item h4 { font-size: 14px; margin-bottom: 8px; font-weight: 700; }
+.analysis-item p { font-size: 14px; color: #334155; line-height: 1.6; margin: 0; }
+.analysis-item.strength h4 { color: #16a34a; }
+.analysis-item.weakness h4 { color: #dc2626; }
+.analysis-item.advice h4 { color: #ea580c; }
+.analysis-item.prediction h4 { color: #07acd6; }
+
+.print-btn { margin-top: 20px; padding: 12px 20px; background: #334155; color: white; border: none; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600; }
+.report-header-print { display: none; text-align: center; margin-bottom: 30px; }
+.report-header-print h1 { font-size: 24px; color: #000; margin-bottom: 5px; }
+.report-header-print p { font-size: 14px; color: #555; }
+
+@media print {
+    .app-header, .bottom-nav, .analyze-btn, .print-btn, .report-controls { display: none !important; }
+    .report-page { height: auto; overflow: visible; padding: 0; }
+    body { background: white; color: black; font-size: 12pt; }
+    .report-header-print { display: block; }
+    .stat-card, .ai-report-card { border: 1px solid #000; box-shadow: none; break-inside: avoid; }
+    .report-table { border: 1px solid #000; width: 100%; }
+    .report-table th, .report-table td { border-bottom: 1px solid #000; color: black; }
+    .score-badge { border: 1px solid #000; background: none !important; color: black !important; }
+    .analysis-grid { display: block; }
+    .analysis-item { margin-bottom: 15px; border: 1px solid #ddd; background: white; }
+}
+
+@media (max-width: 768px) {
+  .analysis-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .report-page { padding: 20px; }
+}
