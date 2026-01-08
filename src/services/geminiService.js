@@ -230,17 +230,18 @@ export const generateQuizFromAI = async (grade, level, subject, topic) => {
   }
 };
 
-// ============================================================================
-// 3. FUNGSI BARU: ANALISIS RAPORT (TREND ANALYSIS)
+// 3. FUNGSI BARU: ANALISIS RAPORT (TREND ANALYSIS) - MODIFIED
 // ============================================================================
 export const getReportAnalysis = async (studentName, grade, subject, quizHistory) => {
+  // 1. Rangkum data history agar hemat token tapi tetap informatif
   const summaryData = quizHistory.map((q, i) => 
-    `Kuis ${i+1}: Topik "${q.topic}", Skor ${q.score}`
+    `- Kuis ${i+1} (${q.date}): Topik "${q.topic || q.subject}", Skor ${q.score}`
   ).join("\n");
 
+  // 2. Prompt yang lebih canggih untuk Evaluasi Mendalam
   const prompt = `
-    Berperanlah sebagai Wali Kelas/Konselor Akademik yang bijak.
-    Analisis data performa siswa berikut:
+    Berperanlah sebagai Guru Wali Kelas dan Konselor Akademik yang bijak.
+    Analisis data performa siswa berikut secara mendalam:
     
     Nama: ${studentName}
     Kelas: ${grade}
@@ -249,12 +250,22 @@ export const getReportAnalysis = async (studentName, grade, subject, quizHistory
     ${summaryData}
 
     TUGAS:
-    Berikan analisis JSON rapi dengan format ini (JANGAN markdown lain):
+    Berikan analisis evaluasi belajar dalam format JSON.
+    
+    ATURAN ISI:
+    1. "strength": Identifikasi kekuatan utama siswa berdasarkan topik yang nilainya tinggi.
+    2. "weakness": Identifikasi kelemahan atau topik yang nilainya masih rendah dengan bahasa yang halus.
+    3. "advice": Berikan array/list berisi 3-4 langkah konkrit (step-by-step) cara belajar untuk memperbaiki kelemahan tersebut.
+    4. "prediction": Berikan angka (0-100) prediksi nilai ujian mendatang jika pola belajar ini diteruskan.
+    5. "motivational_quote": Buatkan satu kalimat semangat yang personal untuk siswa ini.
+
+    OUTPUT JSON WAJIB (JANGAN GUNAKAN MARKDOWN):
     {
-      "strength": "Sebutkan topik-topik dimana siswa nilainya tinggi/konsisten bagus",
-      "weakness": "Sebutkan topik-topik yang nilainya masih rendah",
-      "advice": "Saran belajar spesifik untuk memperbaiki kelemahan",
-      "prediction": "Prediksi singkat potensi siswa di masa depan berdasarkan tren nilai"
+      "strength": "...",
+      "weakness": "...",
+      "advice": ["Langkah 1...", "Langkah 2...", "Langkah 3..."],
+      "prediction": "85",
+      "motivational_quote": "..."
     }
   `;
 
@@ -266,11 +277,25 @@ export const getReportAnalysis = async (studentName, grade, subject, quizHistory
     });
 
     const data = await response.json();
-    if (!response.ok) return null;
+    if (!response.ok) {
+        console.error("Error Analysis:", data);
+        return null;
+    }
 
-    let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    let text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    
+    // Pembersih Markdown agar JSON valid
     text = text.replace(/```json/g, "").replace(/```/g, "").trim();
-    return JSON.parse(text);
+    
+    // Safety parsing
+    try {
+        return JSON.parse(text);
+    } catch (e) {
+        // [FIX] Menggunakan variabel 'e' agar tidak kena linter error
+        console.error("Gagal parse JSON analisis. Error:", e);
+        console.error("Teks asli:", text);
+        return null;
+    }
 
   } catch (error) {
     console.error("Gagal analisis raport:", error);

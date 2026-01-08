@@ -51,3 +51,20 @@ Desktop.ini
 
 # Testing coverage
 coverage/
+
+# --- PYTHON BACKEND SPECIFIC ---
+# Mengabaikan file environment di dalam folder backend
+backend/.env
+backend/.venv
+backend/venv/
+
+# Mengabaikan cache python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints (jika pakai Colab/Jupyter)
+.ipynb_checkpoints/
+
+# Jika Anda ingin mengabaikan script indexer sementara (tapi lebih baik dipisah key-nya)
+# backend/indexer.py
