@@ -42,12 +42,6 @@ const SUBJECTS_DB = {
         { id: "antropologi", name: "Antropologi", icon: "🗿", topic: "Budaya Manusia" },
         { id: "asing", name: "Bahasa Asing", icon: "🎌", topic: "Dasar Bahasa Asing" },
     ],
-    MAHASISWA: [
-        { id: "tpa", name: "TPA / Logika", icon: "🧠", topic: "Logika & Analisis" },
-        { id: "toefl", name: "English Proficiency", icon: "🎓", topic: "TOEFL/IELTS Prep" },
-        { id: "coding", name: "Dasar Pemrograman", icon: "💻", topic: "Algoritma" },
-        { id: "stat", name: "Statistik", icon: "📊", topic: "Pengolahan Data" },
-    ]
 };
 
 export default function QuizPage({ user, onSaveResult }) {
@@ -66,7 +60,6 @@ export default function QuizPage({ user, onSaveResult }) {
         
         if (level === "SD") return SUBJECTS_DB.SD;
         if (level === "SMP") return SUBJECTS_DB.SMP;
-        if (level === "MAHASISWA") return SUBJECTS_DB.MAHASISWA;
         
         // Khusus SMA: Gabungkan Mapel Wajib + Mapel Jurusan
         if (level === "SMA") {
