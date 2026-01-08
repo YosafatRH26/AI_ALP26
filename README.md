@@ -16,6 +16,8 @@ cd REPO-NAME
 
 npm install
 
+npm install remark-gfm react-markdown
+
 npm run dev
 
 http://localhost:5173
