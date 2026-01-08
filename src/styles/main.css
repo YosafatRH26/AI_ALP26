@@ -1,0 +1,729 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f5f7fb;
+  color: #111827;
+}
+
+/* ===== APP SHELL ===== */
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* HEADER */
+
+.app-header {
+  height: 64px;
+  padding: 0 24px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.app-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.app-header-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* icon button (settings, toggle, dll) */
+.icon-btn {
+  border: none;
+  background: #f3f4f6;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: #4b5563;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.icon-btn:hover {
+  background: #e5e7eb;
+}
+
+.icon-btn:active {
+  transform: scale(0.97);
+}
+
+/* SETTINGS POPUP */
+
+.settings-menu {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  width: 240px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 14px 14px 10px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  border: 1px solid #e5e7eb;
+  z-index: 20;
+}
+
+.settings-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.settings-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #fee2e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #b91c1c;
+}
+
+.settings-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.settings-username {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.settings-menu hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 8px 0;
+}
+
+.settings-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.settings-btn:hover {
+  background: #e5e7eb;
+}
+
+.settings-btn.logout {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.settings-btn.logout:hover {
+  background: #fecaca;
+}
+
+/* ===== LAYOUT 75% / 25% ===== */
+
+.app-main {
+  flex: 1;
+  display: flex;
+  padding: 16px 24px;
+  gap: 16px;
+  background-color: #f3f4f6;
+}
+
+/* container punya 2 mode: dengan logs & tanpa logs */
+
+.app-main.with-logs .chat-section {
+  width: 75%;
+}
+
+.app-main.with-logs .logs-section {
+  width: 25%;
+}
+
+.app-main.no-logs .chat-section {
+  width: 100%;
+}
+
+.app-main.no-logs .logs-section {
+  display: none;
+}
+
+/* ===== CHAT SECTION (75%) ===== */
+
+.chat-section {
+  height: 100%;
+}
+
+.chat-panel {
+  background-color: #daf8ff;
+  border-radius: 20px;
+  padding: 18px 18px 14px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+}
+
+/* greeting di atas */
+
+.chat-greeting {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.chat-subtext {
+  font-size: 13px;
+  color: #4b5563;
+  margin-bottom: 12px;
+}
+
+/* area messages */
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* bubble chat putih */
+
+.chat-bubble {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: #ffffff;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+}
+
+.chat-bubble.user {
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-bubble.ai {
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+/* input bar */
+
+.chat-input-bar {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.chat-input-field {
+  flex: 1;
+  border-radius: 999px;
+  border: 1px solid #c4dbe4;
+  padding: 10px 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.chat-input-field:focus {
+  border-color: #07acd6;
+  box-shadow: 0 0 0 1px rgba(7, 172, 214, 0.3);
+}
+
+.chat-send-btn {
+  border-radius: 999px;
+  border: none;
+  padding: 10px 18px;
+  background-color: #07acd6;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chat-send-btn:hover {
+  background-color: #0592b7;
+}
+
+/* tombol toggle logs mengambang di kanan ketika panel logs disembunyikan */
+
+.logs-toggle-floating {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ===== LOGS SECTION (25%) ===== */
+
+.logs-section {
+  height: 100%;
+  position: relative;
+}
+
+.logs-panel {
+  background: #ffffff;
+  border-radius: 20px;
+  height: 100%;
+  padding: 14px 14px 10px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e5e7eb;
+}
+
+.logs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.logs-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.logs-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.new-chat-btn {
+  border-radius: 999px;
+  border: none;
+  padding: 6px 10px;
+  font-size: 12px;
+  background: #07acd6;
+  color: white;
+  cursor: pointer;
+}
+
+.new-chat-btn:hover {
+  background: #0592b7;
+}
+
+.logs-toggle-btn {
+  font-size: 14px;
+}
+
+/* list logs */
+
+.logs-list {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* log item sekarang flex supaya ada tulisan + icon trash di kanan */
+.log-item {
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  background: #f3f4f6;
+  color: #111827;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.log-item:hover {
+  background: #e5e7eb;
+}
+
+.log-item.active {
+  background: #07acd6;
+  color: #ffffff;
+}
+
+/* ikon trash di kanan, default disembunyikan */
+.log-delete-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  color: inherit;
+}
+
+/* saat hover log-item, trash muncul */
+.log-item:hover .log-delete-btn {
+  opacity: 1;
+}
+
+
+/* ===== PROFILE PAGE ===== */
+
+.profile-page {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background: #f3f4f6;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+  padding: 22px 22px 18px;
+}
+
+.profile-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.profile-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: #fee2e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #b91c1c;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.profile-username {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* jenjang buttons */
+
+.profile-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.level-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.level-btn {
+  flex: 1;
+  border-radius: 12px;
+  padding: 8px 0;
+  font-size: 13px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  cursor: pointer;
+}
+
+.level-btn.active {
+  background: #07acd6;
+  color: white;
+  border-color: #07acd6;
+}
+/* src/styles/main.css */
+
+/* Reset dasar */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden; /* Mencegah scroll pada body utama */
+}
+
+/* Container Utama Aplikasi */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full layar */
+  background-color: #f0f2f5;
+}
+
+/* HEADER */
+.app-header {
+  height: 60px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid #ddd;
+  flex-shrink: 0; /* Header tidak boleh mengecil */
+}
+
+.app-logo { height: 30px; margin-right: 10px; }
+.app-title { font-weight: bold; font-size: 1.2rem; }
+
+/* MAIN LAYOUT (Chat + Sidebar) */
+.app-main {
+  display: flex;
+  flex: 1; /* Mengisi sisa ruang di bawah header */
+  overflow: hidden; /* Penting agar scroll hanya terjadi di area chat */
+  position: relative;
+}
+
+/* --- AREA CHAT (KIRI/TENGAH) --- */
+.chat-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 900px; /* Agar chat tidak terlalu lebar di monitor besar */
+  width: 100%;
+  margin: 0 auto;
+  background: white;
+}
+
+/* Agar Pesan Bisa Di-Scroll */
+.chat-messages {
+  flex: 1; /* Mengambil semua ruang kosong */
+  overflow-y: auto; /* Scroll vertikal jika pesan panjang */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Scrollbar cantik (Opsional) */
+.chat-messages::-webkit-scrollbar { width: 6px; }
+.chat-messages::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 4px; }
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 10px 15px;
+  border-radius: 12px;
+  line-height: 1.5;
+  word-wrap: break-word; /* Agar teks panjang turun ke bawah */
+}
+.chat-bubble.user { align-self: flex-end; background-color: #007bff; color: white; }
+.chat-bubble.ai { align-self: flex-start; background-color: #f1f1f1; color: black; }
+
+/* INPUT BAR */
+.chat-input-bar {
+  padding: 15px;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 10px;
+  background: white;
+}
+
+.chat-input-field {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+}
+
+.chat-send-btn {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+.chat-send-btn:disabled { background-color: #ccc; }
+
+/* --- SIDEBAR LOGS (KANAN) --- */
+.logs-section {
+  width: 280px;
+  background: #f8f9fa;
+  border-left: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+/* Logika Show/Hide Sidebar */
+.app-main.no-logs .logs-section {
+  display: none; /* Hilangkan sidebar jika ditutup */
+}
+
+/* --- RESPONSIVE MOBILE (Layar Kecil) --- */
+@media (max-width: 768px) {
+  /* Di HP, Sidebar jadi Overlay (menimpa chat) */
+  .logs-section {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 80%; /* Lebar sidebar 80% layar */
+    background: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    z-index: 100;
+  }
+
+  /* Jika logs ditutup di HP */
+  .app-main.no-logs .logs-section {
+    display: flex; /* Tetap di-render tapi digeser */
+    transform: translateX(100%); /* Geser ke kanan luar layar */
+  }
+  
+  .app-main.with-logs .logs-section {
+    transform: translateX(0); /* Geser masuk */
+  }
+
+  /* Tombol Toggle Floating */
+  .logs-toggle-floating {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 50;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .chat-bubble { max-width: 90%; font-size: 14px; }
+  .app-title { font-size: 1rem; }
+}
+/* Styling Tambahan untuk Attachment */
+
+.chat-input-wrapper {
+  background: white;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Override input bar lama agar border-top pindah ke wrapper */
+.chat-input-bar {
+  border-top: none; 
+}
+
+/* Tombol Paperclip */
+.attach-btn {
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 10px;
+  color: #555;
+  transition: color 0.2s;
+}
+.attach-btn:hover {
+  color: #007bff;
+}
+
+/* Area Preview File */
+.attachment-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f0f8ff; /* Warna biru muda */
+  padding: 8px 15px;
+  margin: 0 15px;
+  border-radius: 8px;
+  border: 1px solid #cce5ff;
+  font-size: 0.9rem;
+  color: #004085;
+  margin-top: 10px;
+}
+
+.attachment-remove {
+  background: none;
+  border: none;
+  color: #dc3545;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 10px;
+}
+
+/* Indikator file di dalam chat bubble user */
+.file-indicator {
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  display: inline-block;
+  border: 1px solid rgba(255,255,255,0.3);
+}
