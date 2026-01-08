@@ -1,16 +1,77 @@
-# React + Vite
+# MentorkuAI — AI Tutor for Students
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MentorkuAI adalah aplikasi AI Tutor berbasis web yang dirancang untuk membantu siswa dari berbagai jenjang (SD, SMP, SMA) 
 
-Currently, two official plugins are available:
+Tech Stack
+Frontend: React.js + Vite
+Styling: CSS Modular / Global CSS (Poppins Font)
+State Management: React Hooks
+Version Control: Git & GitHub
+AI Integration (planned): LLM-based Tutor Engine
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Cara menjalankan projek
+git clone https://github.com/USERNAME/REPO-NAME.git
+cd REPO-NAME
 
-## React Compiler
+npm install
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+npm run dev
 
-## Expanding the ESLint configuration
+http://localhost:5173
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Fitur Utama
+1. AI Chatbot Tutor
+Chatbot interaktif sebagai tutor belajar
+Mendukung berbagai topik pelajaran sesuai jenjang siswa
+Tampilan chat dengan bubble message
+
+2. Pembagian Layout Aplikasi
+75% area kiri: Fokus pada chatbot & percakapan
+25% area kanan: Chat logs / riwayat percakapan
+Chat logs dapat:
+Dipilih
+Dihapus
+Disembunyikan (hide / show panel)
+
+3️. Chat Logs (Riwayat Chat)
+Menampilkan daftar percakapan sebelumnya
+Klik chat untuk melanjutkan percakapan
+Hover pada chat log akan menampilkan tombol hapus
+Tombol New Chat untuk membuat percakapan baru
+
+4️. User Menu (Header Dropdown)
+Saat ikon user / setting diklik, akan muncul popup menu berisi:
+Nama user
+Tombol Edit Profile
+Tombol Logout
+Tombol Hapus User
+
+5️. Halaman Profile
+User dapat mengedit data profile:
+Nama
+Username / Email
+Jenjang pendidikan (SD / SMP / SMA)
+Perubahan profile langsung tersimpan 
+
+6️. Login & Register
+User dapat melakukan Register & Login
+Riwayat chat tersimpan per user
+Sistem mengenali identitas & jenjang user
+
+7️. Quiz Uji Kemampuan
+User dapat mengikuti quiz uji kemampuan
+Soal di-generate berdasarkan:
+Mata pelajaran yang dipilih
+Jenjang pendidikan
+Digunakan untuk mengukur kemampuan awal siswa
+
+8️. Report & Analisis Belajar
+Setelah mengikuti quiz, tersedia halaman Report yang menampilkan:
+Nilai rata-rata
+Nilai tertinggi
+Jumlah quiz yang telah dikerjakan
+Filter berdasarkan:
+Mata pelajaran
+
+Fitur AI Analysis:
+AI menganalisis hasil belajar & quiz
