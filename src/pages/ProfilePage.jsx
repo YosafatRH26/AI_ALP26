@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./ProfilePage.css";
+import "../styles/ProfilePage.css";
 
 export default function ProfilePage({ user, onLogout, onDeleteAccount, onUpdateProfile }) {
   const [isEditing, setIsEditing] = useState(false);

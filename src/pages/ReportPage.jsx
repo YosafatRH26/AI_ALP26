@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getReportAnalysis } from "../services/geminiService";
-import "./ReportPage.css";
+import "../styles/ReportPage.css";
 
 export default function ReportPage({ history, user }) {
     const [selectedSubject, setSelectedSubject] = useState("Semua");

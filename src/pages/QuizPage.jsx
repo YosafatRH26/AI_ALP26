@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { generateQuizFromAI } from "../services/geminiService";
-import "./QuizPage.css";
+import "../styles/QuizPage.css";
 
 export default function QuizPage({ user, onSaveResult }) {
     const [step, setStep] = useState("menu"); 
