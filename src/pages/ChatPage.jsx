@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import "./ChatPage.css"; // Import CSS lokal untuk styling ChatPage
+import "../styles/ChatPage.css"; // Import CSS lokal untuk styling ChatPage
 
 export default function ChatPage({ 
   logsOpen, setLogsOpen, messages, onSendMessage, input, setInput, isLoading,

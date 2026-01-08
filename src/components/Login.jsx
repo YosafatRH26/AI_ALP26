@@ -1,6 +1,6 @@
 import { useState } from "react";
 import logo from "../assets/logofixx.png"; // Path logo disesuaikan (naik satu folder)
-import "./Login.css"; // TAMBAH INI
+import "../styles/Login.css"; // TAMBAH INI
 
 // Ikon Mata Terbuka
 const EyeIcon = () => (
