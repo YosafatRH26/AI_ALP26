@@ -1,6 +1,6 @@
 import { useState } from "react";
 import logo from "../assets/logofixx.png"; // Path logo disesuaikan (naik satu folder)
-import "./Onboarding.css";
+import "../styles/Onboarding.css";
 
 export default function Onboarding({ onSave, userId, username }) {
   const [name, setName] = useState("");
