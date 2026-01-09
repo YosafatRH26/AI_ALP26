@@ -64,7 +64,7 @@ const searchKnowledgeBase = async (query, userLevel) => {
 };
 
 // ============================================================================
-// 1. FUNGSI UTAMA: CHAT AI (DENGAN RAG)
+// CHAT AI (DENGAN RAG)
 // ============================================================================
 export const getGeminiResponse = async (userMessage, level, attachmentFile, isSocratic = true, history = []) => {
   try {
@@ -84,7 +84,7 @@ export const getGeminiResponse = async (userMessage, level, attachmentFile, isSo
         3. JIKA INGIN MEMBERI KUIS INTERAKTIF DI CHAT, GUNAKAN FORMAT JSON DI BAWAH.
         `;
     } else if (level.includes("SMP")) {
-        specificInstruction = `TARGET AUDIENS: SMP. Gaya: Gaul, Mentor. Gunakan analogi game/hobi.`;
+        specificInstruction = `TARGET AUDIENS: SMP. Gaya: Logis, To-the-point.`;
     } else {
         specificInstruction = `TARGET AUDIENS: SMA/Mahasiswa. Gaya: Logis, Kritis, To-the-point.`;
     }
@@ -174,7 +174,7 @@ export const getGeminiResponse = async (userMessage, level, attachmentFile, isSo
 export const generateQuizFromAI = async (grade, level, subject, topic) => {
   let difficultyCheck = "";
   if (level.includes("SD")) difficultyCheck = "Soal harus SANGAT SEDERHANA, gunakan angka kecil atau kosakata dasar.";
-  else if (level.includes("SMA") || level.includes("MAHASISWA")) difficultyCheck = "Soal harus ANALITIS, KOMPLEKS, dan TINGKAT LANJUT (HOTS).";
+  else if (level.includes("SMA")) difficultyCheck = "Soal harus ANALITIS, KOMPLEKS, dan TINGKAT LANJUT (HOTS).";
 
   const prompt = `
     Peran: Guru Ahli Kurikulum Indonesia.

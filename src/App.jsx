@@ -37,7 +37,6 @@ const calculateCurrentStatus = (userData) => {
   if (currentGrade >= 1 && currentGrade <= 6) level = "SD";
   else if (currentGrade >= 7 && currentGrade <= 9) level = "SMP";
   else if (currentGrade >= 10 && currentGrade <= 12) level = "SMA";
-  else level = "MAHASISWA";
   return { ...userData, currentGrade, level };
 };
 
@@ -154,65 +153,70 @@ export default function App() {
     window.location.reload();
   };
 
-//   useEffect(() => {
-//   if (!authState) return;
+  //   useEffect(() => {
+  //   if (!authState) return;
 
-//   const profileKey = `mentorku-user-${authState.userId}`;
-//   const savedProfile = localStorage.getItem(profileKey);
+  //   const profileKey = `mentorku-user-${authState.userId}`;
+  //   const savedProfile = localStorage.getItem(profileKey);
 
-//   if (savedProfile) {
-//     const parsed = JSON.parse(savedProfile);
-//     setUser(calculateCurrentStatus(parsed));
-//   } else {
-//     setUser(null);
-//   }
-// }, [authState]);
+  //   if (savedProfile) {
+  //     const parsed = JSON.parse(savedProfile);
+  //     setUser(calculateCurrentStatus(parsed));
+  //   } else {
+  //     setUser(null);
+  //   }
+  // }, [authState]);
 
+  // Jika belum login (AuthState Kosong)
+  if (!authState) {
+    return (
+      <Login
+        onLoginSuccess={(data) => {
+          // Simpan Auth
+          setAuthState(data);
+          localStorage.setItem("tutor_currentUser", JSON.stringify(data));
 
-// Jika belum login (AuthState Kosong)
-if (!authState) {
-  return (
-    <Login
-      onLoginSuccess={(data) => {
-        // Simpan Auth
-        setAuthState(data);
-        localStorage.setItem("tutor_currentUser", JSON.stringify(data));
+          // CARI DATA PROFIL LAMA DISINI
+          const profileKey = `mentorku-user-${data.userId}`;
+          const savedProfile = localStorage.getItem(profileKey);
 
-        // CARI DATA PROFIL LAMA DISINI
-        const profileKey = `mentorku-user-${data.userId}`;
-        const savedProfile = localStorage.getItem(profileKey);
+          if (savedProfile) {
+            const parsed = JSON.parse(savedProfile);
+            // Set user agar tidak masuk ke onboarding
+            setUser(calculateCurrentStatus(parsed));
+            // Simpan ke session aktif agar konsisten dengan flow aplikasi
+            localStorage.setItem(
+              "mentorku-active-session",
+              JSON.stringify(parsed)
+            );
+          } else {
+            // Jika memang user baru benar-benar belum punya profil
+            setUser(null);
+          }
+        }}
+      />
+    );
+  }
 
-        if (savedProfile) {
-          const parsed = JSON.parse(savedProfile);
-          // Set user agar tidak masuk ke onboarding
-          setUser(calculateCurrentStatus(parsed));
-          // Simpan ke session aktif agar konsisten dengan flow aplikasi
-          localStorage.setItem("mentorku-active-session", JSON.stringify(parsed));
-        } else {
-          // Jika memang user baru benar-benar belum punya profil
-          setUser(null);
-        }
-      }}
-    />
-  );
-}
-
-// Jika sudah login (AuthState ada), tapi profil belum ada
-if (!user) {
-  return (
-    <Onboarding
-      onSave={(data) => {
-        const profileData = calculateCurrentStatus(data);
-        setUser(profileData);
-        // Pastikan disimpan di dua tempat agar saat login ulang ketemu
-        localStorage.setItem("mentorku-active-session", JSON.stringify(data));
-        localStorage.setItem(`mentorku-user-${authState.userId}`, JSON.stringify(data));
-      }}
-      userId={authState.userId}
-      username={authState.username}
-    />
-  );
-}
+  // Jika sudah login (AuthState ada), tapi profil belum ada
+  if (!user) {
+    return (
+      <Onboarding
+        onSave={(data) => {
+          const profileData = calculateCurrentStatus(data);
+          setUser(profileData);
+          // Pastikan disimpan di dua tempat agar saat login ulang ketemu
+          localStorage.setItem("mentorku-active-session", JSON.stringify(data));
+          localStorage.setItem(
+            `mentorku-user-${authState.userId}`,
+            JSON.stringify(data)
+          );
+        }}
+        userId={authState.userId}
+        username={authState.username}
+      />
+    );
+  }
 
   return (
     <div className="app-shell">
@@ -257,7 +261,14 @@ if (!user) {
             onDeleteChat={(id) => {
               const n = chats.filter((c) => c.id !== id);
               setChats(n);
-              if (selectedChatId === id) setSelectedChatId(n[0]?.id || null);
+              if (n.length === 0) {
+                const newId = Date.now();
+                const autoChat = { id: newId, title: "Chat Baru", messages: [] };
+                setChats([autoChat]);
+                setSelectedChatId(newId);
+              } else if (selectedChatId === id) {
+                setSelectedChatId(n[0]?.id || null);
+              }
             }}
             level={user.level}
             user={user}
@@ -282,13 +293,23 @@ if (!user) {
                 handleLogout();
               }
             }}
-            onUpdateProfile={(u) => {
-              setUser({ ...user, ...u });
-              localStorage.setItem(
-                "mentorku-active-session",
-                JSON.stringify({ ...user, ...u })
-              );
-            }}
+            onUpdateProfile={(updatedData) => {
+              // 1. Gabungkan data lama dengan data baru
+              const newRawData = { ...user, ...updatedData, grade: parseInt(updatedData.currentGrade) };
+              
+              // 2. Hitung ulang status (Level, dll) agar UI langsung berubah
+              const finalizedData = calculateCurrentStatus(newRawData);
+              
+              // 3. Update State
+              setUser(finalizedData);
+              
+              // 4. Update LocalStorage (Session Aktif)
+              localStorage.setItem("mentorku-active-session", JSON.stringify(finalizedData));
+              
+              // 5. Update LocalStorage (Database Permanen User) - INI KUNCINYA
+              const profileKey = `mentorku-user-${authState.userId}`;
+              localStorage.setItem(profileKey, JSON.stringify(finalizedData));
+          }}
           />
         )}
       </div>
