@@ -8,7 +8,7 @@ export default function ProfilePage({ user, onLogout, onDeleteAccount, onUpdateP
 
   const handleSave = () => {
     if(editedName && editedGrade) {
-        onUpdateProfile({ name: editedName, currentGrade: editedGrade });
+        onUpdateProfile({ name: editedName, currentGrade: parseInt(editedGrade)});
         setIsEditing(false);
     }
   };
