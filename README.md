@@ -18,6 +18,13 @@ npm install
 
 npm install remark-gfm react-markdown
 
+cd backend
+>> pip install -r requirements.txt
+
+pip install requests PyPDF2 google-generativeai supabase
+
+npm install @supabase/supabase-js
+
 npm run dev
 
 http://localhost:5173
