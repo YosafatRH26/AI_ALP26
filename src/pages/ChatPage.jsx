@@ -5,13 +5,12 @@ import "../styles/ChatPage.css";
 
 export default function ChatPage({ 
   logsOpen, setLogsOpen, messages, onSendMessage, input, setInput, isLoading,
-  chats, selectedChatId, setSelectedChatId, onNewChat, onDeleteChat, level, user,
+  chats, selectedChatId, setSelectedChatId, onNewChat,onDeleteChat, level, user,
   socraticMode, setSocraticMode 
 }) {
   const [attachment, setAttachment] = useState(null);
   const fileInputRef = useRef(null);
   const messagesEndRef = useRef(null);
-  const [answeredQuizzes, setAnsweredQuizzes] = useState({}); 
 
   useEffect(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }), [messages, isLoading, attachment]);
 
@@ -20,12 +19,6 @@ export default function ChatPage({
     onSendMessage(input, attachment);
     setInput(""); setAttachment(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
-  };
-
-  const handleQuizOptionClick = (messageId, option) => {
-    if (answeredQuizzes[messageId] || isLoading) return;
-    setAnsweredQuizzes(prev => ({ ...prev, [messageId]: option.label }));
-    onSendMessage(`Saya memilih jawaban ${option.label}: "${option.text}"`, null);
   };
 
   return (
@@ -54,20 +47,6 @@ export default function ChatPage({
               <div key={m.id} className={`chat-bubble ${m.sender === "user" ? "user" : "ai"}`}>
                 {m.fileName && <div className="file-indicator">📎 {m.fileName}</div>}
                 <div className="markdown-content"><ReactMarkdown remarkPlugins={[remarkGfm]}>{m.text}</ReactMarkdown></div>
-                {m.sender === "ai" && m.quiz && (
-                  <div className="quiz-container" style={{marginTop: "15px", display: "flex", flexDirection: "column", gap: "8px"}}>
-                    <div style={{fontSize: "0.9em", fontWeight: "bold", marginBottom: "5px"}}>Pilih Jawaban:</div>
-                    {m.quiz.options.map((opt, idx) => {
-                          const label = typeof opt === 'object' ? (opt.text || opt.label || JSON.stringify(opt)) : opt;
-                          const isSelected = answeredQuizzes[m.id] === (opt.label || opt);
-                          return (
-                            <button key={idx} onClick={() => handleQuizOptionClick(m.id, opt)} disabled={!!answeredQuizzes[m.id]} className={`option-btn ${isSelected ? "selected" : ""}`} style={{padding: "10px", minHeight: "40px"}}>
-                                {label}
-                            </button>
-                          )
-                    })}
-                  </div>
-                )}
               </div>
              ))}
              {isLoading && <div className="chat-bubble ai"><em>Sedang berpikir... 🤖</em></div>}
@@ -111,7 +90,12 @@ export default function ChatPage({
               
               <div className="logs-list">
               {chats.map((chat) => (
-                <div key={chat.id} className={"log-item " + (chat.id === selectedChatId ? "active" : "")} onClick={() => setSelectedChatId(chat.id)}>
+                <div
+                  key={chat.id}
+                  className={"log-item " + (chat.id === selectedChatId ? "active" : "")}
+                  onClick={() => setSelectedChatId(chat.id)}
+                >
+                  
                    <span style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '150px'}}>{chat.title}</span>
                    <button className="log-delete-btn" onClick={(e) => {e.stopPropagation(); onDeleteChat(chat.id)}}>🗑</button>
                 </div>
