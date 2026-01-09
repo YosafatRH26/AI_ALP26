@@ -56,7 +56,7 @@ export default function QuizPage({ user, onSaveResult }) {
 
     // --- LOGIC MENENTUKAN SUBJECT LIST ---
     const getSubjectList = () => {
-        const level = user.level; // SD, SMP, SMA, MAHASISWA
+        const level = user.level; // SD, SMP, SMA,
         
         if (level === "SD") return SUBJECTS_DB.SD;
         if (level === "SMP") return SUBJECTS_DB.SMP;

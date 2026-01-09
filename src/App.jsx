@@ -37,7 +37,6 @@ const calculateCurrentStatus = (userData) => {
   if (currentGrade >= 1 && currentGrade <= 6) level = "SD";
   else if (currentGrade >= 7 && currentGrade <= 9) level = "SMP";
   else if (currentGrade >= 10 && currentGrade <= 12) level = "SMA";
-  else level = "MAHASISWA";
   return { ...userData, currentGrade, level };
 };
 
