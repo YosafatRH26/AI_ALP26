@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import "../styles/ChatPage.css"; // Import CSS lokal untuk styling ChatPage
+import "../styles/ChatPage.css"; 
 
 export default function ChatPage({ 
   logsOpen, setLogsOpen, messages, onSendMessage, input, setInput, isLoading,
@@ -30,6 +30,8 @@ export default function ChatPage({
 
   return (
     <div className={`app-main ${logsOpen ? "with-logs" : "no-logs"}`}>
+      
+      {/* BAGIAN TENGAH: CHAT SECTION */}
       <div className="chat-section">
         <div className="chat-panel"> 
           <div className="chat-header-actions">
@@ -37,7 +39,6 @@ export default function ChatPage({
                 Hi, {user.name}! 👋 <br/>
                 <span style={{fontSize: "14px", color: "#555"}}>Tutor AI - Kelas {user.currentGrade} ({level})</span>
              </div>
-             {/* Mode toggle bisa dipindah ke settings jika mau, tapi biarkan disini sesuai request */}
              <div className="mode-toggle" style={{display:'flex', alignItems:'center', gap:'8px', float: 'right'}}>
                 <span style={{fontSize:'12px', fontWeight:'bold', color: socraticMode ? '#0284c7' : '#64748b'}}>{socraticMode ? "🧠 Tutor" : "⚡ Cepat"}</span>
                 <label className="switch" style={{position:'relative', display:'inline-block', width:'34px', height:'20px'}}>
@@ -58,7 +59,7 @@ export default function ChatPage({
                     <div style={{fontSize: "0.9em", fontWeight: "bold", marginBottom: "5px"}}>Pilih Jawaban:</div>
                     {m.quiz.options.map((opt, idx) => {
                           const label = typeof opt === 'object' ? (opt.text || opt.label || JSON.stringify(opt)) : opt;
-                          const isSelected = answeredQuizzes[m.id] === (opt.label || opt); // Simple check
+                          const isSelected = answeredQuizzes[m.id] === (opt.label || opt);
                           return (
                             <button key={idx} onClick={() => handleQuizOptionClick(m.id, opt)} disabled={!!answeredQuizzes[m.id]} className={`option-btn ${isSelected ? "selected" : ""}`} style={{padding: "10px", minHeight: "40px"}}>
                                 {label}
@@ -68,9 +69,9 @@ export default function ChatPage({
                   </div>
                 )}
               </div>
-            ))}
-            {isLoading && <div className="chat-bubble ai"><em>Sedang berpikir... 🤖</em></div>}
-            <div ref={messagesEndRef} />
+             ))}
+             {isLoading && <div className="chat-bubble ai"><em>Sedang berpikir... 🤖</em></div>}
+             <div ref={messagesEndRef} />
           </div>
 
           <div className="chat-input-wrapper"> 
@@ -83,21 +84,44 @@ export default function ChatPage({
             </div>
           </div>
         </div>
-        {!logsOpen && <button className="icon-btn logs-toggle-floating" onClick={() => setLogsOpen(true)}>❯</button>}
+
+        {/* TOMBOL FLOATING (Muncul di Kanan Atas saat Sidebar Tertutup) */}
+        {!logsOpen && (
+          <button 
+            className="logs-toggle-floating" 
+            onClick={() => setLogsOpen(true)}
+            title="Buka Riwayat"
+          >
+             ❮ Riwayat {/* Panah ke Kiri karena sidebar muncul dari Kanan */}
+          </button>
+        )}
       </div>
 
-      <div className="logs-section">
-        <div className="logs-panel">
-            <div className="logs-header"><div className="logs-title">Riwayat</div><div className="logs-buttons"><button className="new-chat-btn" onClick={onNewChat}>+</button><button className="icon-btn" onClick={() => setLogsOpen(false)}>❮</button></div></div>
-            <div className="logs-list">
-            {chats.map((chat) => (
-              <div key={chat.id} className={"log-item " + (chat.id === selectedChatId ? "active" : "")} onClick={() => setSelectedChatId(chat.id)}>
-                 <span style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '150px'}}>{chat.title}</span><button className="log-delete-btn" onClick={(e) => {e.stopPropagation(); onDeleteChat(chat.id)}}>🗑</button>
+      {/* BAGIAN KANAN: SIDEBAR RIWAYAT */}
+      {logsOpen && (
+        <div className="logs-section">
+          <div className="logs-panel">
+              <div className="logs-header">
+                <div className="logs-title">Riwayat Chat</div>
+                <div className="logs-buttons">
+                  <button className="new-chat-btn" onClick={onNewChat} title="Chat Baru">+</button>
+                  <button className="close-sidebar-btn" onClick={() => setLogsOpen(false)} title="Tutup">❯</button>
+                </div>
               </div>
-            ))}
-            </div>
+              
+              <div className="logs-list">
+              {chats.map((chat) => (
+                <div key={chat.id} className={"log-item " + (chat.id === selectedChatId ? "active" : "")} onClick={() => setSelectedChatId(chat.id)}>
+                   <span style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '150px'}}>{chat.title}</span>
+                   <button className="log-delete-btn" onClick={(e) => {e.stopPropagation(); onDeleteChat(chat.id)}}>🗑</button>
+                </div>
+              ))}
+              {chats.length === 0 && <div style={{padding:"20px", textAlign:"center", color:"#94a3b8", fontSize:"13px"}}>Belum ada riwayat</div>}
+              </div>
+          </div>
         </div>
-      </div>
+      )}
+
     </div>
   );
 }
